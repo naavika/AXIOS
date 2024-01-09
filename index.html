@@ -1,0 +1,83 @@
+<html>
+     <body>
+          <from onsubmit="saveToLocalStorage(event)">
+            <label> Name</label>
+            <input id='username' type="text" name="username" required/>
+            <label> EmailId</label>
+            <input id='email' type="email" name="emailId" required/>
+            <label> Phone Number</label>
+            <input id='phonenumber' type="tel" name="phonenumber" />
+            <button> Submit </button>
+          </from>
+          <ul id='listOfUsers'></ul>
+          <script src="https://cdn.js.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js
+          "
+          <script>
+            function saveToLocalStorage(event) {
+                event.preventDefault();
+                const name = event.target.username.value;
+                const email = event.target.email.value;
+                const phonenumber = event.target.phonenumber.value;
+                const obj = {
+                    name,
+                    email,
+                    phonenumber
+                }
+
+                axios.post("https://crudcrud.com/api/2dbec22493074283b93afd498af74fcd/appoinmentData",obj)
+                .then((response) => {
+                    showNewUserOnScreen(response.data)
+                   // console.log(response)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            
+            // localStorage.setItem(obj,email,JSON,stringify(obj))
+            //showNewUserOnScreen(obj) 
+            }
+
+            window.addEventListener("DOMContentLoaded", () => {
+                const localStorageObj = localStorage;
+                const localStoragekeys = Object.keys(localStorageObj)
+
+                for(var i=0; i< localStoragekeys.length; i++) {
+                    const key = localStoragekeys[i]
+                    const userDetailsString = localStorageObj[key];
+                    const userDetailsObj = JSON.parse(userDetailsString);
+                    showNewUserOnScreen(userDetailsObj)
+                }
+            })
+
+            function showNewUserOnScreen(user) {
+                const userList = document.getElementById('listOfUsers');
+                const listItem = document.createElement('li');
+                listItem.textContent = `Name: ${user.name}, Email: ${user.email}, Phone: ${user.phonenumber}`;
+                userList.appendChild(listItem);
+            }
+           </script>
+     </body>
+</html>
+            
+
+      
+    
+
+
+                
+    
+
+                
+            
+
+
+
+            
+
+   
+    
+    
+
+    
+    
+
